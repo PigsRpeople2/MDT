@@ -1,0 +1,150 @@
+#root {
+  width: 100vw;
+  height: 96vh;
+  padding: 2vh;
+  text-align: center;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+}
+
+.mdt-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay-container {
+  position: absolute; /* Or 'absolute' if inside a relative parent */
+  top: 0;
+  left: 0;
+  width: 100%; /* Viewport width */
+  height: 100%; /* Viewport height */
+  z-index: 9999; /* Sits on top of everything else */
+  display: flex;
+  justify-content: center; /* Centers image horizontally */
+  align-items: center; /* Centers image vertically */
+  pointer-events: none; /* Allows clicks to pass through to content below */
+  /* If you want the overlay to cover everything but be clickable: */
+  /* pointer-events: auto; */
+}
+
+/* 3. Style the image itself */
+.overlay-image {
+  max-width: 100%;
+  max-height: 100%; 
+  width: 100%;
+  height: 100%;
+  pointer-events: none; 
+  object-fit: contain;
+}
+
+.app-container {
+  aspect-ratio: 1.59 / 1;
+  object-fit: contain;
+  height: 69.7247706%;
+}
+
+
+
+
+
+.afr-interior {
+  background: linear-gradient(180deg, rgba(18,31,40,1) 0%, rgba(36,46,54,1) 100%);
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.afr-bottom-navbar {
+  z-index: 10;
+  position: absolute;
+  display: flex;
+  bottom: 0;
+  width: 100%;
+  height: 9vh;
+  background: linear-gradient(
+    180deg, 
+    rgba(128,129,131,1) 0%, 
+    rgba(200,201,202,1) 10%, 
+    rgba(200,201,202,1) 25%, 
+    rgb(187, 189, 192) 25%, 
+
+    rgb(187, 189, 192) 34%, 
+    rgb(167, 168, 171) 34%, 
+    rgb(167, 168, 171) 35%, 
+    rgb(187, 189, 192) 35%, 
+
+    rgb(187, 189, 192) 44%, 
+    rgb(167, 168, 171) 44%, 
+    rgb(167, 168, 171) 45%, 
+    rgb(187, 189, 192) 45%,
+
+    rgb(187, 189, 192) 54%, 
+    rgb(167, 168, 171) 54%, 
+    rgb(167, 168, 171) 55%, 
+    rgb(187, 189, 192) 55%,
+
+    
+    rgb(187, 189, 192) 64%, 
+    rgb(167, 168, 171) 64%, 
+    rgb(167, 168, 171) 65%, 
+    rgb(187, 189, 192) 65%,
+
+    rgb(187, 189, 192) 75%,
+    rgba(200,201,202,1) 75%,
+    rgba(200,201,202,1) 85%, 
+    rgba(128,129,131,1) 100%
+    );
+}
+
+.afr-bottom-navbar-button {
+  z-index: 11;
+  width: auto;
+  height: 5.1vh;
+  border: double 1vh transparent;
+  border-radius: 20% / 25%;
+  background-image: 
+  linear-gradient(rgb(18,31,40), rgb(18,31,40)),
+  linear-gradient(180deg, 
+  rgba(95,96,98,1) 0%,
+  rgba(62,62,64,1) 10%,
+  rgba(120,121,124,1) 49%, 
+  rgba(62,62,64,1) 50%,
+  rgba(62,62,64,1) 100%
+  );
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  margin: 1vh 0.5vh;
+  display: inline-block;
+  box-shadow: 0 1vh 0.9vh -0.2vh rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+}
+
+.afr-bottom-navbar-button:hover {
+  transform:translateY(-0.15vh);
+}
+
+.afr-bottom-navbar-button:active {
+  transform:translateY(0.15vh);
+}
+
+.afr-bottom-navbar-button-container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin: 0 1.5vh;
+
+  font-size: 2.5vh;
+  color: #fff;
+  font-weight: bold;
+}
+
+.afr-bottom-navbar-container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin-left: 1.5vh;
+}
