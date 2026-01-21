@@ -460,3 +460,34 @@
   font-weight: 300;
   font-family: 'Myriad Condensed', Helvetica, sans-serif;
 }
+
+
+.afr-perimeter-info-bar {
+  z-index: 12;
+  position: absolute;
+  top: 0;
+  width: 97.2%;
+  height: 96%;
+  border: 1.5vh solid red;
+  border-bottom: 3vh solid red;
+}
+
+.afr-perimeter-info-bar-identifier {
+  position: absolute;
+  top: 0vh;
+  left: 0vh;
+  height: auto;
+  width: auto;
+  background-color: red;
+  border-radius: 0 0 0.5vh 0;
+
+  font-size: 1.5vh;
+  color: black;
+  font-weight: bold;
+}
+
+.afr-perimeter-info-bar-text {
+  margin: 0vh 0.7vh 0vh 0vh;
+  font-family: 'Myriad Condensed', Helvetica, sans-serif;
+  font-weight: bold;
+}
