@@ -131,6 +131,22 @@
   transform:translateY(0.15vh);
 }
 
+.afr-navbar-nextPageAnimation > div{
+  animation: nextPage 2.5s forwards;
+}
+
+.afr-navbar-lastPageAnimation > div{
+  animation: nextPage 2.5s forwards;
+}
+
+@keyframes nextPage {
+  0% {  }
+  100% { transform: translateY(-9vh); }  
+}
+
+
+
+
 .afr-bottom-navbar-button-container {
   display: flex;
   align-items: center;
@@ -148,6 +164,19 @@
   height: 100%;
   margin-left: 1.5vh;
 }
+
+.afr-bottom-navbar-buttons {
+  display: flex;
+  height: 100%;
+  width: 85vh;
+  flex-wrap: wrap;
+  overflow: hidden;
+}
+
+
+
+
+
 
 .afr-emergency-button {
   width: 6.3vh;
@@ -293,3 +322,4 @@
   fill-opacity: 0.2;
   stroke-opacity: 0.1;
 }
+
