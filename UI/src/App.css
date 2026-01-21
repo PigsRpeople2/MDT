@@ -131,19 +131,6 @@
   transform:translateY(0.15vh);
 }
 
-.afr-navbar-nextPageAnimation > div{
-  animation: nextPage 2.5s forwards;
-}
-
-.afr-navbar-lastPageAnimation > div{
-  animation: nextPage 2.5s forwards;
-}
-
-@keyframes nextPage {
-  0% {  }
-  100% { transform: translateY(-9vh); }  
-}
-
 
 
 
