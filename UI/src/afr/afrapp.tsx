@@ -2,7 +2,7 @@ import { use, useEffect, useRef, useState } from 'react'
 import '../app.css'
 
 function AfrApp() {
-  let buttons = [{text: "NAV", function: () => {}}, {text: "MAP", function: () => {}}, {text: "SitR", function: () => {}}]
+  let buttons = [{text: "NAV", function: () => {}}, {text: "MAP", function: () => {}}, {text: "SitR", function: () => {}}, {text: "LOG", function: () => {}}, {text: "CREW", function: () => {}},]
 
   const [duress, setDuress] = useState(false)
   const [duressheld, setDuressheld] = useState(false)
@@ -72,6 +72,18 @@ function AfrApp() {
                   
                   </circle>
                 </svg>}
+            </div>
+            <div className='afr-navbar-arrow-container'>
+              <div className='afr-navbar-arrow-up'>
+                <svg viewBox='0 0 106 68' className='afr-navbar-arrow-up-svg-inactive'>
+                  <path d='M47 10Q53 2 59 10L100 55Q106 65 96 65L53 65 10 65Q0 65 5 55Z'/>
+                </svg>
+              </div>
+              <div className='afr-navbar-arrow-down'>
+                <svg viewBox='0 0 106 71' className='afr-navbar-arrow-down-svg-inactive'>
+                  <path d='M59 57Q53 65 47 57L6 12Q0 2 10 2L53 2 96 2Q106 2 101 12Z' />
+                </svg>
+              </div>
             </div>
           </div>
         </div>
