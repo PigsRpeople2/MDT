@@ -148,3 +148,94 @@
   height: 100%;
   margin-left: 1.5vh;
 }
+
+.afr-emergency-button {
+  width: 6.3vh;
+  height: 6.3vh;
+  position: absolute;
+  right: 1.5vh;
+  top: 1vh;
+  border: double 0.4vh transparent;
+  border-radius: 50%;
+  background-image: 
+  linear-gradient(rgb(139, 139, 139), rgb(110, 110, 110)),
+  linear-gradient(rgba(184,187,190,1) 0%, rgba(184,187,190,1) 100%
+  );
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+  display: flex;
+  box-shadow: 0 0.8vh 0.9vh -0.2vh rgba(0, 0, 0, 0.5);
+}
+
+.afr-emergency-button-interior {
+  width: 5.6vh;
+  height: 5.6vh;
+  border-radius: 50%;
+  background-color: rgb(246,160,0);
+  position: absolute;
+  top: 0.325vh;
+  left: 0.325vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow:visible;
+}
+
+.afr-emergency-button-interior-active {
+  width: 5.6vh;
+  height: 5.6vh;
+  border-radius: 50%;
+  background-color: rgb(246,160,0);
+  position: absolute;
+  top: 0.325vh;
+  left: 0.325vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow:visible;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: rgb(247, 168, 11);
+  }
+  25% {
+    background-color: rgb(246, 150, 0);
+  }
+  50% {
+    background-color: rgb(156, 134, 100);
+  }
+  75% {
+    background-color: rgb(246,150,0);
+  }
+  100% {
+    background-color: rgb(247, 168, 11);
+  }
+}
+
+.afr-emergency-progress-svg {
+  transform: translate(-29.5%, 112%);
+  overflow: visible;
+}
+
+.emergency-progress {
+  width: 5.6vh;
+  height: 5.6vh;
+  position: absolute;
+  rotate: -90deg;
+  stroke: rgba(255,110,1,0.7);
+  stroke-width: 70;
+  stroke-linecap: flat;
+
+  stroke-dasharray: 283;
+  stroke-dashoffset: 283;
+  animation: fill 1.5s linear forwards;
+  pointer-events: none;
+}
+
+/* Keyframes for the drawing (filling) */
+@keyframes fill {
+  0% { stroke-dashoffset: 283; }
+  100% { stroke-dashoffset: 0; } /* Empty again to loop */
+}
