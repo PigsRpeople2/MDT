@@ -2,7 +2,11 @@ import { use, useEffect, useRef, useState } from 'react'
 import '../app.css'
 
 function AfrApp() {
-  let buttons = [{text: "NAV", function: () => {}}, {text: "MAP", function: () => {}}, {text: "SitR", function: () => {}}, {text: "LOG", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}},]
+  
+  let [breakthrough, setBreakthrough] = useState(false)
+  let breakthroughinfo = useRef({messageType: "", message: ""})
+  let [breakthroughMute, setBreakthroughMute] = useState(false)
+  let [breakthroughSentQuiet, setBreakthroughSentQuiet] = useState(false)
 
   const [duress, setDuress] = useState(false)
   const [duressheld, setDuressheld] = useState(false)
@@ -15,12 +19,37 @@ function AfrApp() {
   const [page, setPage] = useState(0);
 
 
+  let buttons = [{text: "NAV", function: () => fakethroughMessage()}, {text: "MAP", function: () => {}}, {text: "SitR", function: () => {}}, {text: "LOG", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}},]
+
+  function fakethroughMessage() {
+    breakthroughinfo.current = {messageType: "Bush Fire - FIRECALL", message: "ohh noes, fire in the bush!"}
+    setBreakthroughSentQuiet(false)
+    setBreakthroughMute(false)
+    setBreakthrough(true)
+  }
+
+  function breakthroughMessage(messageType?: string, message?: string, quiet?: boolean) {
+    if (messageType) {
+      breakthroughinfo.current = {messageType: messageType, message: message || ""}
+      if (quiet == true){
+        setBreakthroughMute(true)
+        setBreakthroughSentQuiet(true)
+      }
+      else {
+        setBreakthroughMute(false)
+        setBreakthroughSentQuiet(false)
+      }
+      setBreakthrough(true)
+      return true
+    }
+    return false
+  }
 
   const handleDuress = () => {
+    breakthroughMessage("EMERGENCY", "MDT", true)
+
     console.log("oh shit")
   }  
-
-
 
   const handleDuressMouseDown = () => {
       setDuressheld(true)
@@ -57,7 +86,7 @@ function AfrApp() {
 
 
 
-  function handlePageDown() {
+  const handlePageDown = () => {
     if (page < pages -1) {
       setPage(page + 1)
       }
@@ -66,7 +95,7 @@ function AfrApp() {
 
 
 
-  function handlePageUp() {
+  const handlePageUp = () => {
     if (page > 0) {
       setPage(page - 1)
     }
@@ -75,20 +104,28 @@ function AfrApp() {
 
 
 
-
-
-
   return (
     <>
       <style>
         {`
-        .afr-navbar-translate > div {
-          transition: transform 0.5s ease-in-out;
-          transform: translateY(-${page * 9}vh);
-        }
-        `}
+.afr-navbar-translate > div {
+  transition: transform 0.5s ease-in-out;
+  transform: translateY(-${page * 9}vh);
+}
+
+.afr-bottom-navbar-button:hover {
+  transition: transform 0.05s ease-in-out;
+  transform:translateY(calc(-0.15vh - ${page * 9}vh));
+}
+
+.afr-bottom-navbar-button:active {
+  transition: transform 0.1s ease-in-out;
+  transform:translateY(calc(0.15vh - ${page * 9}vh));
+}
+`}
       </style>
-      <div className="afr-interior">
+      
+      {breakthrough == false? <div className="afr-interior">
         
         <div className="afr-bottom-navbar">
           {/* bottom nav bar */}
@@ -145,7 +182,30 @@ function AfrApp() {
             </div>
           </div>
         </div>
+      </div>:<>
+      {breakthroughMute == false &&
+      <audio src='/breakthroughalert.mp3' autoPlay loop/>}
+      <div className='afr-breakthrough-message-container'>
+        <div className='afr-breakthrough-message-interior'>
+          <div className='afr-breakthrough-message-contentbox'>
+            <p>{breakthroughinfo.current.messageType}<br/>{breakthroughinfo.current.message}</p>
+          </div>
+          <div className='afr-breakthrough-message-options'>
+            <div className='afr-breakthrough-message-acknowledge' onClick={() => setBreakthrough(false)}>
+              <div className='afr-breakthrough-message-acknowledge-container'>
+                <p>ACKNOWLEDGE</p>
+              </div>
+            </div>
+            {breakthroughSentQuiet == false &&
+            <div className='afr-breakthrough-message-mute' onClick={() => setBreakthroughMute(true)}>
+              <div className='afr-breakthrough-message-mute-container'>
+                <p>MUTE</p>
+              </div>
+            </div>}
+          </div>
+        </div>
       </div>
+      </>}
     </>
   )
 }
