@@ -470,6 +470,7 @@
   height: 96%;
   border: 1.5vh solid red;
   border-bottom: 3vh solid red;
+  pointer-events: none;
 }
 
 .afr-perimeter-info-bar-identifier {
@@ -484,10 +485,12 @@
   font-size: 1.5vh;
   color: black;
   font-weight: bold;
+  pointer-events: none;
 }
 
 .afr-perimeter-info-bar-text {
   margin: 0vh 0.7vh 0vh 0vh;
   font-family: 'Myriad Condensed', Helvetica, sans-serif;
   font-weight: bold;
+  pointer-events: none;
 }

@@ -127,11 +127,12 @@ function AfrApp() {
       
       {breakthrough == false? 
       <div className="afr-interior">
+        {duress == true &&
         <div className="afr-perimeter-info-bar">
           <div className='afr-perimeter-info-bar-identifier'>
             <p className='afr-perimeter-info-bar-text'>Emergency</p>
           </div>
-        </div>
+        </div>}
         <div className="afr-bottom-navbar">
           {/* bottom nav bar */}
           <div className='afr-bottom-navbar-container'>
