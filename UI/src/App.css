@@ -462,14 +462,16 @@
 }
 
 
+
+
 .afr-perimeter-info-bar {
   z-index: 12;
   position: absolute;
   top: 0;
   width: 97.2%;
   height: 96%;
-  border: 1.5vh solid red;
-  border-bottom: 3vh solid red;
+  border: 1.5vh solid;
+  border-bottom: 3vh solid;
   pointer-events: none;
 }
 
@@ -479,11 +481,9 @@
   left: 0vh;
   height: auto;
   width: auto;
-  background-color: red;
   border-radius: 0 0 0.5vh 0;
 
   font-size: 1.5vh;
-  color: black;
   font-weight: bold;
   pointer-events: none;
 }

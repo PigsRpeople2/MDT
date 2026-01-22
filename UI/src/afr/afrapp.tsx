@@ -18,8 +18,13 @@ function AfrApp() {
   const [pages, setPages] = useState(0);
   const [page, setPage] = useState(0);
 
+  let [infoPerim, setInfoPerim] = useState(false)
+  let infoPeriminfo = useRef({info: "", identifier: "", colour: "", textColour: ""})
 
-  let buttons = [{text: "NAV", function: () => fakethroughMessage()}, {text: "MAP", function: () => {}}, {text: "SitR", function: () => {}}, {text: "LOG", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}},]
+
+
+
+  let buttons = [{text: "NAV", function: () => fakethroughMessage()}, {text: "MAP", function: () => perimeterInfoBar("discon", "SERVER DISCONNECTED")}, {text: "SitR", function: () => perimeterInfoBar("discon")}, {text: "LOG", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}},]
 
   function fakethroughMessage() {
     breakthroughinfo.current = {messageType: "Bush Fire - FIRECALL", message: "ohh noes, fire in the bush!"}
@@ -45,11 +50,29 @@ function AfrApp() {
     return false
   }
 
+  function perimeterInfoBar(identifier?: string, info?: string, colour?: string, textColour?: string) {
+    if (info) {
+      if (colour == "red") {
+        infoPeriminfo.current = {info: info, identifier: identifier || "", colour: "rgb(206, 52, 49)", textColour: textColour || "rgb(0,0,0)"}
+      } else {
+        infoPeriminfo.current = {info: info, identifier: identifier || "", colour: "rgb(255, 230, 10)", textColour: textColour || "rgb(0,0,0)"}
+      }
+      setInfoPerim(true)
+    } else if (identifier == infoPeriminfo.current.identifier || identifier == "") {
+        setInfoPerim(false)
+      }
+  }
+
   const handleDuress = () => {
     breakthroughMessage("EMERGENCY", "MDT", true)
+    perimeterInfoBar("duress", "EMERGENCY", "red")
 
     console.log("oh shit")
   }  
+
+  const clearDuress = () => {
+    perimeterInfoBar("duress")
+  }
 
   const handleDuressMouseDown = () => {
       setDuressheld(true)
@@ -62,6 +85,7 @@ function AfrApp() {
         else if (duress == true) {
           console.log("Duress Deactivated")
           setDuress(false)
+          clearDuress()
         }
       }, 1200);
       
@@ -79,7 +103,7 @@ function AfrApp() {
   useEffect(() => {
     if (elementRef.current) {
       if (elementRef.current.lastElementChild?.getBoundingClientRect().height) {
-        setPages((Math.round(elementRef.current.lastElementChild?.offsetTop / (screenHeight / 100)) + 8 ) / 9)
+        setPages((Math.round((elementRef.current.lastElementChild as HTMLElement)?.offsetTop / (screenHeight / 100)) + 8 ) / 9)
       }}
   }, []);
 
@@ -127,10 +151,10 @@ function AfrApp() {
       
       {breakthrough == false? 
       <div className="afr-interior">
-        {duress == true &&
-        <div className="afr-perimeter-info-bar">
-          <div className='afr-perimeter-info-bar-identifier'>
-            <p className='afr-perimeter-info-bar-text'>Emergency</p>
+        {infoPerim == true &&
+        <div className="afr-perimeter-info-bar" style={{borderColor: infoPeriminfo.current.colour}}>
+          <div className='afr-perimeter-info-bar-identifier' style={{backgroundColor: infoPeriminfo.current.colour, color: infoPeriminfo.current.textColour}}>
+            <p className='afr-perimeter-info-bar-text'>{infoPeriminfo.current.info}</p>
           </div>
         </div>}
         <div className="afr-bottom-navbar">
@@ -199,13 +223,13 @@ function AfrApp() {
           <div className='afr-breakthrough-message-options'>
             <div className='afr-breakthrough-message-acknowledge' onClick={() => setBreakthrough(false)}>
               <div className='afr-breakthrough-message-acknowledge-container'>
-                <p>ACKNOWLEDGE</p>
+                <p style={{userSelect: 'none'}}>ACKNOWLEDGE</p>
               </div>
             </div>
             {breakthroughSentQuiet == false &&
             <div className='afr-breakthrough-message-mute' onClick={() => setBreakthroughMute(true)}>
               <div className='afr-breakthrough-message-mute-container'>
-                <p>MUTE</p>
+                <p style={{userSelect: 'none'}}>MUTE</p>
               </div>
             </div>}
           </div>
