@@ -4,7 +4,7 @@ import '../app.css'
 function AfrApp() {
   
   let [breakthrough, setBreakthrough] = useState(false)
-  let breakthroughinfo = useRef({messageType: "", message: ""})
+  let breakthroughinfo = useRef({messageType: "", message: [{text: ""}]})
   let [breakthroughMute, setBreakthroughMute] = useState(false)
   let [breakthroughSentQuiet, setBreakthroughSentQuiet] = useState(false)
 
@@ -27,15 +27,19 @@ function AfrApp() {
   let buttons = [{text: "NAV", function: () => fakethroughMessage()}, {text: "MAP", function: () => perimeterInfoBar("discon", "SERVER DISCONNECTED")}, {text: "SitR", function: () => perimeterInfoBar("discon")}, {text: "LOG", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}},]
 
   function fakethroughMessage() {
-    breakthroughinfo.current = {messageType: "Bush Fire - FIRECALL", message: "ohh noes, fire in the bush!"}
+    breakthroughinfo.current = {messageType: "Bush Fire - FIRECALL", message: [{text: "ohh noes, fire in the bush! coz like someone didnt put their cigarette out propahly! and now everythin's on fire! please come quick! its real bad! we need all hands on deck!"}]}
     setBreakthroughSentQuiet(false)
     setBreakthroughMute(false)
     setBreakthrough(true)
   }
 
-  function breakthroughMessage(messageType?: string, message?: string, quiet?: boolean) {
+  function breakthroughMessage(messageType?: string, message?: string | Array<{text: string}>, quiet?: boolean) {
     if (messageType) {
-      breakthroughinfo.current = {messageType: messageType, message: message || ""}
+      if (typeof message === "string"){
+        message = [{text: message}]
+      }
+        
+      breakthroughinfo.current = {messageType: messageType, message: message || [{text: ""}]}
       if (quiet == true){
         setBreakthroughMute(true)
         setBreakthroughSentQuiet(true)
@@ -218,7 +222,9 @@ function AfrApp() {
       <div className='afr-breakthrough-message-container'>
         <div className='afr-breakthrough-message-interior'>
           <div className='afr-breakthrough-message-contentbox'>
-            <p>{breakthroughinfo.current.messageType}<br/>{breakthroughinfo.current.message}</p>
+            <p>{breakthroughinfo.current.messageType}<br/>{breakthroughinfo.current.message.map((msg, index) => (<>
+              {msg.text} <br/></>
+            ))}</p>
           </div>
           <div className='afr-breakthrough-message-options'>
             <div className='afr-breakthrough-message-acknowledge' onClick={() => setBreakthrough(false)}>

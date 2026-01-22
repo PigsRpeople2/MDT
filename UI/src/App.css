@@ -374,6 +374,43 @@
   overflow-y: auto;
 }
 
+.afr-breakthrough-message-contentbox::-webkit-scrollbar {
+  width: 4vh;
+  background-color: rgb(18,31,40);
+}
+
+.afr-breakthrough-message-contentbox::-webkit-scrollbar-thumb {
+  background-color: #565f65;
+  border-radius: 0.5vh;
+  border: rgb(18,31,40) 0.2vh solid;
+}
+
+.afr-breakthrough-message-contentbox::-webkit-scrollbar-button:start:increment {
+  width: 4vh;
+  height: 2vh;
+  background-image: 
+    
+    linear-gradient(125deg, rgb(18,31,40) 0% 85%, #565f65 85% 100%),
+
+    linear-gradient(-125deg, rgb(18,31,40) 0% 85%, #565f65 85% 100%);
+  background-size: 51% 70%, 51% 70%; /* Each gradient covers half the width */
+  background-position: top left, top right; /* Position each gradient */
+  background-repeat: no-repeat;
+}
+
+.afr-breakthrough-message-contentbox::-webkit-scrollbar-button:end:decrement {
+    width: 4vh;
+  height: 2vh;
+  background-image: 
+    
+    linear-gradient(45deg, rgb(18,31,40) 0% 85%, #565f65 85% 100%),
+
+    linear-gradient(-45deg, rgb(18,31,40) 0% 85%, #565f65 85% 100%);
+  background-size: 51% 70%, 51% 70%; /* Each gradient covers half the width */
+  background-position: bottom left, bottom right; /* Position each gradient */
+  background-repeat: no-repeat;
+}
+
 
 .afr-breakthrough-message-acknowledge {
   position: absolute;
