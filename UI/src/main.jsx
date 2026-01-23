@@ -5,11 +5,15 @@ import { RouterProvider } from "react-router/dom";
 import './index.css'
 import App from './App.jsx'
 import AfrApp from './afr/afrapp.tsx';
+import AfrHome from './afr/afrhome.tsx';
 
 const router = createBrowserRouter([
   {
     path: "/afr",
     Component: AfrApp,
+    children: [
+      {path: "home", Component: AfrHome,}
+    ]
   },
 ]);
 

@@ -1,8 +1,19 @@
-import { use, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { Outlet, Link } from 'react-router'
 import '../app.css'
+
 
 function AfrApp() {
   
+  // FOR CHILDREN
+    // HOME  
+      const [incident, setIncident] = useState(false);
+      const incidentDetailsRef = useRef({location: "", type: "", units: []});
+      const statuses = [{id: 0, name: "RESPONDING", abbvr: "RES", next: 1}, {id: 1, name: "ON SCENE", abbvr: "OS", next: 2}, {id: 2, name: "AVAILABLE", abbvr: "AV", next: 3}, {id: 3, name: "AT STATION", abbvr: "AS", next: 0}, {id: 4, name: "NOT AVAILABLE", abbvr: "NA", next: 3}, {id: 5, name: "PROCEEDING", abbvr: "PRO", next: 2}, {id: 6, name: "ALERTED", abbvr: "AL", next: 0}, {id: 7, name: "EMERGENCY", abbvr: "EMR", next: 3}];
+      const [status, setStatus] = useState({id: 2, name: "AVAILABLE", abbvr: "AV", next: 0});
+      
+  const toBePassed = {incident, setIncident, incidentDetailsRef, status, setStatus, statuses}
+
   let [breakthrough, setBreakthrough] = useState(false)
   let breakthroughinfo = useRef({messageType: "", message: [{text: ""}]})
   let [breakthroughMute, setBreakthroughMute] = useState(false)
@@ -11,6 +22,7 @@ function AfrApp() {
   const [duress, setDuress] = useState(false)
   const [duressheld, setDuressheld] = useState(false)
   const duressTimerRef = useRef(0)
+  const prevStatusRef = useRef({id: 2, name: "AVAILABLE", abbvr: "AV", next: 0})
 
 
   const elementRef = useRef<HTMLDivElement>(null);
@@ -24,7 +36,7 @@ function AfrApp() {
 
 
 
-  let buttons = [{text: "NAV", function: () => fakethroughMessage()}, {text: "MAP", function: () => perimeterInfoBar("discon", "SERVER DISCONNECTED")}, {text: "SitR", function: () => perimeterInfoBar("discon")}, {text: "LOG", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}},]
+  let buttons = [{text: "NAV", function: () => fakethroughMessage()}, {text: "MAP", function: () => perimeterInfoBar("discon", "SERVER DISCONNECTED")}, {text: "SitR", function: () => perimeterInfoBar("discon")}, {text: "LOG", function: () => setIncident(!incident)}, {text: "CREW", function: () => {}}, {text: "FORMS", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}},]
 
   function fakethroughMessage() {
     breakthroughinfo.current = {messageType: "Bush Fire - FIRECALL", message: [{text: "ohh noes, fire in the bush! coz like someone didnt put their cigarette out propahly! and now everythin's on fire! please come quick! its real bad! we need all hands on deck!"}]}
@@ -70,12 +82,19 @@ function AfrApp() {
   const handleDuress = () => {
     breakthroughMessage("EMERGENCY", "MDT", true)
     perimeterInfoBar("duress", "EMERGENCY", "red")
+    prevStatusRef.current = status
+    let newStatus = statuses.find((status: any) => status.id === 7)
+    if (newStatus) {
+        setStatus(newStatus);
+    }
 
     console.log("oh shit")
   }  
 
   const clearDuress = () => {
     perimeterInfoBar("duress")
+    setStatus(prevStatusRef.current)
+    console.log("all good")
   }
 
   const handleDuressMouseDown = () => {
@@ -161,6 +180,10 @@ function AfrApp() {
             <p className='afr-perimeter-info-bar-text'>{infoPeriminfo.current.info}</p>
           </div>
         </div>}
+        <div className="afr-app-outlet-container">
+          <Outlet context={toBePassed} />
+        </div>
+
         <div className="afr-bottom-navbar">
           {/* bottom nav bar */}
           <div className='afr-bottom-navbar-container'>
