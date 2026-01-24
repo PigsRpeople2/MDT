@@ -13,7 +13,7 @@ function AfrApp() {
       const [status, setStatus] = useState({id: 2, name: "AVAILABLE", abbvr: "AV", next: 0});
       const navigate = useNavigate();
       
-  const toBePassed = {incident, setIncident, incidentDetailsRef, status, setStatus, statuses, navigate}
+  let toBePassed = {incident, setIncident, incidentDetailsRef, status, setStatus, statuses, navigate}
 
   let [breakthrough, setBreakthrough] = useState(false)
   let breakthroughinfo = useRef({messageType: "", message: [{text: ""}]})
@@ -169,7 +169,8 @@ function AfrApp() {
   }
 
 
-
+  const functionsToBePassed = {breakthroughMessage, causeError, perimeterInfoBar, handleDuress, clearDuress}
+  toBePassed = {...toBePassed, ...functionsToBePassed}
 
   return (
     <>
