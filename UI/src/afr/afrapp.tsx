@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Outlet, Link } from 'react-router'
+import { Outlet, Link, useNavigate } from 'react-router'
 import '../app.css'
 
 
@@ -11,13 +11,17 @@ function AfrApp() {
       const incidentDetailsRef = useRef({location: "", type: "", units: []});
       const statuses = [{id: 0, name: "RESPONDING", abbvr: "RES", next: 1}, {id: 1, name: "ON SCENE", abbvr: "OS", next: 2}, {id: 2, name: "AVAILABLE", abbvr: "AV", next: 3}, {id: 3, name: "AT STATION", abbvr: "AS", next: 0}, {id: 4, name: "NOT AVAILABLE", abbvr: "NA", next: 3}, {id: 5, name: "PROCEEDING", abbvr: "PRO", next: 2}, {id: 6, name: "ALERTED", abbvr: "AL", next: 0}, {id: 7, name: "EMERGENCY", abbvr: "EMR", next: 3}];
       const [status, setStatus] = useState({id: 2, name: "AVAILABLE", abbvr: "AV", next: 0});
+      const navigate = useNavigate();
       
-  const toBePassed = {incident, setIncident, incidentDetailsRef, status, setStatus, statuses}
+  const toBePassed = {incident, setIncident, incidentDetailsRef, status, setStatus, statuses, navigate}
 
   let [breakthrough, setBreakthrough] = useState(false)
   let breakthroughinfo = useRef({messageType: "", message: [{text: ""}]})
   let [breakthroughMute, setBreakthroughMute] = useState(false)
   let [breakthroughSentQuiet, setBreakthroughSentQuiet] = useState(false)
+
+  let [error, setError] = useState(false)
+  let [errorInfo, setErrorInfo] = useState<{title: string, message: string, level: number}[]>([])
 
   const [duress, setDuress] = useState(false)
   const [duressheld, setDuressheld] = useState(false)
@@ -35,17 +39,16 @@ function AfrApp() {
 
 
 
+  let buttons = [{text: "NAV", function: () => fakethroughMessage(), link: ""}, {text: "MAP", function: () => perimeterInfoBar("discon", "SERVER DISCONNECTED"), link: ""}, {text: "SitR", function: () => perimeterInfoBar("discon"), link: ""}, {text: "LOG", function: () => setIncident(!incident), link: ""}, {text: "CREW", function: () => causeError("Crew Error", "", 0, true), link: ""}, {text: "FORMS", function: () => {}, link: ""}, {text: "CREW", function: () => {}, link: ""}, {text: "CREW", function: () => {}, link: ""}, {text: "CREW", function: () => {}, link: ""}, {text: "CREW", function: () => {}, link: ""}, {text: "CREW", function: () => {}, link: ""}, {text: "CREW", function: () => {}, link: ""}, {text: "CREW", function: () => {}, link: ""}, {text: "CREW", function: () => {}, link: ""}, {text: "TRN", function: () => {}, link: "/afr/page/trn"},]
 
-  let buttons = [{text: "NAV", function: () => fakethroughMessage()}, {text: "MAP", function: () => perimeterInfoBar("discon", "SERVER DISCONNECTED")}, {text: "SitR", function: () => perimeterInfoBar("discon")}, {text: "LOG", function: () => setIncident(!incident)}, {text: "CREW", function: () => {}}, {text: "FORMS", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}}, {text: "CREW", function: () => {}},]
-
-  function fakethroughMessage() {
+  const fakethroughMessage = () => {
     breakthroughinfo.current = {messageType: "Bush Fire - FIRECALL", message: [{text: "ohh noes, fire in the bush! coz like someone didnt put their cigarette out propahly! and now everythin's on fire! please come quick! its real bad! we need all hands on deck!"}]}
     setBreakthroughSentQuiet(false)
     setBreakthroughMute(false)
     setBreakthrough(true)
   }
 
-  function breakthroughMessage(messageType?: string, message?: string | Array<{text: string}>, quiet?: boolean) {
+  const breakthroughMessage = (messageType?: string, message?: string | Array<{text: string}>, quiet?: boolean) => {
     if (messageType) {
       if (typeof message === "string"){
         message = [{text: message}]
@@ -66,7 +69,24 @@ function AfrApp() {
     return false
   }
 
-  function perimeterInfoBar(identifier?: string, info?: string, colour?: string, textColour?: string) {
+  const causeError = (title?: string, message?: string, level?: number, alert?: boolean) => {
+    if (title) {
+      setErrorInfo([...errorInfo, {title: title, message: message || "", level: level || 0}])
+      setError(alert || true)
+      if (!message) {
+        console.warn("No message provided to error handler")
+      }
+    } else {
+      setErrorInfo([...errorInfo, {title: "Error when rendering error", message: `No ${!title ? "title" : ""} was provided to error handler`, level: 0}])
+      if (alert == true){
+        setError(true)
+      }
+    }
+  }
+
+
+
+  const perimeterInfoBar = (identifier?: string, info?: string, colour?: string, textColour?: string) => {
     if (info) {
       if (colour == "red") {
         infoPeriminfo.current = {info: info, identifier: identifier || "", colour: "rgb(206, 52, 49)", textColour: textColour || "rgb(0,0,0)"}
@@ -172,8 +192,52 @@ function AfrApp() {
 `}
       </style>
       
-      {breakthrough == false? 
+      {breakthrough == false?
       <div className="afr-interior">
+        {error == true &&
+          <div className="afr-error-message-container">
+            <div className='afr-error-message-header'>
+              <img className='afr-error-message-header-logo' src='/afr-logo-low.png' />
+              <p className='afr-error-message-header-text'>Adashi First Response</p>
+              <div className='afr-error-message-header-close' onClick={() => setError(false)}>
+                <svg className='afr-error-message-header-close-svg' viewBox='0 0 30 30' style={{pointerEvents: "none"}}>
+                  <line x1="10" y1="11" x2="20" y2="21" strokeWidth="2"/>
+                  <line x1="20" y1="11" x2="10" y2="21" strokeWidth="2"/>
+                </svg>
+              </div>
+            </div>
+            <div className='afr-error-message-interior'>
+              {errorInfo.map((error, index) => (
+                <div key={index} className='afr-error-message-contentbox'>
+                  <div className='afr-error-message-title-container'>
+                    <svg className='afr-error-message-icon' viewBox='0 0 100 100'>
+                      {error.level == 0 &&<>
+                      <circle cx="50" cy="50" r="50" fill="rgb(255, 0, 0)" />
+                      <line x1="30" y1="30" x2="70" y2="70" strokeWidth="10" stroke="rgb(255, 255, 255)" />
+                      <line x1="70" y1="30" x2="30" y2="70" strokeWidth="10" stroke="rgb(255, 255, 255)" />
+                      </>}
+                      {error.level == 1 &&<>
+                      <path d="M50 5 L 100 95 L  0 95 Z" fill="rgb(255, 215, 0)" stroke='#000' strokeWidth="10" strokeLinejoin='round' strokeLinecap='round'/>
+                      <text x="50%" y="70%" dominantBaseline="middle" textAnchor="middle" fontSize="65" fill="rgb(0,0,0)" fontFamily="Arial" fontWeight="bold">!</text>
+                      </>}
+                      {error.level == 2 &&<>
+                      <circle cx="50" cy="50" r="50" fill="rgb(255, 165, 0)" />
+                      <line x1="50" y1="20" x2="50" y2="60" strokeWidth="10" stroke="rgb(255, 255, 255)" />
+                      <circle cx="50" cy="75" r="5" fill="rgb(255, 255, 255)" />
+                      </>}
+                    </svg>
+                    <p className='afr-error-message-title'>{error.title}</p>
+                  </div>
+                  <p className='afr-error-message-message'>{error.message}</p>
+                </div>
+              ))}
+              <div className='afr-error-message-spacer'/>
+              <div className='afr-error-message-button' onClick={() => { setError(false); setErrorInfo([]); }}>
+                <p className='afr-error-message-button-text'>{errorInfo.length == 1 ? "Ok" : "Ok to all"}</p>
+              </div>
+            </div>
+          </div>
+        }
         {infoPerim == true &&
         <div className="afr-perimeter-info-bar" style={{borderColor: infoPeriminfo.current.colour}}>
           <div className='afr-perimeter-info-bar-identifier' style={{backgroundColor: infoPeriminfo.current.colour, color: infoPeriminfo.current.textColour}}>
@@ -190,13 +254,19 @@ function AfrApp() {
             <div ref={elementRef} className={`afr-bottom-navbar-buttons afr-navbar-translate `}>
 
               
-              {buttons.map((button, index) => (
-                <div key={index} className='afr-bottom-navbar-button' onClick={button.function} >
-                  <span className='afr-bottom-navbar-button-container' onClick={button.function}>
+              {buttons.map((button, index) => button.link ?
+                <div key={index} className='afr-bottom-navbar-button' onClick={() => { navigate(button.link!)}} >
+                  <span className='afr-bottom-navbar-button-container' >
                     <p style={{userSelect: "none"}}>{button.text}</p>
                   </span>
                 </div>
-              ))}
+                :
+                <div key={index} className='afr-bottom-navbar-button' onClick={button.function} >
+                  <span className='afr-bottom-navbar-button-container' >
+                    <p style={{userSelect: "none"}}>{button.text}</p>
+                  </span>
+                </div>
+            )}
             
             
             
@@ -239,7 +309,9 @@ function AfrApp() {
             </div>
           </div>
         </div>
-      </div>:<>
+      </div>
+      :
+      <>
       {breakthroughMute == false &&
       <audio src='/breakthroughalert.mp3' autoPlay loop/>}
       <div className='afr-breakthrough-message-container'>

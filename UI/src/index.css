@@ -29,6 +29,7 @@ body {
   min-width: 100vw;
   min-height: 100vh;
   overflow: hidden;
+  user-select: none;
 }
 
 h1 {

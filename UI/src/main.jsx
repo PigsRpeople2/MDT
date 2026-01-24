@@ -6,13 +6,18 @@ import './index.css'
 import App from './App.jsx'
 import AfrApp from './afr/afrapp.tsx';
 import AfrHome from './afr/afrhome.tsx';
+import AfrPages from './afr/pages/afrpages.tsx';;
+import afrtrn from './afr/pages/arftrn.tsx';
 
 const router = createBrowserRouter([
   {
     path: "/afr",
     Component: AfrApp,
     children: [
-      {path: "home", Component: AfrHome,}
+      {path: "home", Component: AfrHome,},
+      {path: "page", Component: AfrPages,children: [
+        {path: "trn", Component: afrtrn}
+      ]},
     ]
   },
 ]);

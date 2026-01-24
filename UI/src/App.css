@@ -555,9 +555,148 @@
 
 
 
+.afr-error-message-container {
+  background: rgb(255, 255, 255);
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  justify-content: left;
+  align-content: flex-start;
+  z-index: 20;
+}
 
+.afr-error-message-header {
+  background-color: rgb(245, 245, 245);
+  height: 2.3vh;
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-bottom: 0.4vh solid rgb(204, 204, 204);
+}
 
+.afr-error-message-header-logo {
+  height: 1.5vh;
+  width: auto;
+  user-select: none;
+  margin-top: 0.35vh;
+  margin-left: 0.6vh;
+}
 
+.afr-error-message-header-text {
+  font-size: 1.5vh;
+  color: #4b4b4b;
+  margin: 0.5vh 0 0 0.4vh;
+  user-select: none;
+  font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+  line-height: 1vh;
+}
+
+.afr-error-message-header-close {
+  position: absolute;
+  right: 0.5vh;
+  top: 0.3vh;
+  width: 2vh;
+  height: 2vh;
+  background-color: rgb(245,245,245);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.afr-error-message-header-close:hover {
+  background-color: rgb(218, 17, 17);
+}
+
+.afr-error-message-header-close:hover > * {
+  stroke: rgb(255, 255, 255);
+}
+
+.afr-error-message-header-close-svg {
+  width: 2vh;
+  height: 2vh;
+  stroke: rgb(75, 75, 75);
+  transition: stroke 0.2s ease-in-out;
+  margin-right: 0.1vh;
+}
+
+.afr-error-message-interior {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  height: calc( 100% - 2.3vh );
+}
+
+.afr-error-message-contentbox {
+  height: auto;
+  min-height: 12.5%;
+  width: 100%;
+  position: relative;
+  border-bottom: 0.2vh solid rgb(155, 155, 155);
+  justify-items: left;
+  align-content: center;
+}
+
+.afr-error-message-title-container {
+  margin-left: 0.75vh;
+}
+
+.afr-error-message-icon {
+  height: 2vh;
+  width: 2.2vh;
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.afr-error-message-title {
+  display: inline-block;
+  font-size: 1.5vh;
+  margin: 0.5vh 1vh 0vh 0.5vh;
+  white-space: preserve nowrap;
+}
+
+.afr-error-message-message {
+  font-size: 1.5vh;
+  font-weight: normal;
+  margin: 0.5vh 1vh 0.5vh 1vh;
+}
+
+.afr-error-message-message {
+  font-size: 1.5vh;
+  font-weight: normal;
+  margin: 0.5vh 1vh 0.5vh 1vh;
+}
+
+.afr-error-message-button {
+  height: 2.5vh;
+  position: absolute;
+  bottom: 5vh;
+  right: 4vh;
+  border: 0.1vh solid rgb(170, 170, 170);
+  background-color: rgb(235, 235, 235);
+  cursor: pointer;
+}
+
+.afr-error-message-button:hover {
+  background-color: rgb(200, 200, 200);
+}
+
+.afr-error-message-button-text {
+  color: #000000;
+  font-size: small;
+  line-height: 2.5vh;
+  margin: 0 0.6vh;
+}
+
+.afr-error-message-spacer {
+  height: 12.5%;
+  width: 100%;
+}
 
 
 .afr-home-container {
@@ -824,6 +963,7 @@
   box-shadow: inset 4.5vh 0 4vh -4vh rgba(0, 0, 0, 1), inset -4.5vh 0 4vh -4vh rgba(0, 0, 0, 1), inset 0 0 1vh 0.2vh rgba(0, 0, 0, 0.8), 0 1vh 0.9vh -0.2vh rgba(0, 0, 0, 0.5);
   justify-items: center;
   align-content: center;
+  cursor: pointer;
 }
 
 .afr-incident-status-selector-open {
@@ -839,6 +979,7 @@
 
   align-content: center;
   justify-items: center;
+  cursor: pointer;
 }
 
 .afr-incident-status-selector-chevrons {
@@ -907,7 +1048,8 @@
 .afr-incident-status-selector-active {
   position: absolute;
   top: 2vh;
-  left: 4vh;
+  left: 6.5vh;
+  transform: translateX(-50%);
   width: auto;
   height: 5vh;
   color: rgb(0,0,0);
@@ -915,7 +1057,27 @@
   font-family: 'Myriad Condensed', Helvetica, sans-serif;
   font-size: 5vh;
   line-height: 5vh;
-  margin: 0 1vh;
+  padding: 0 1vh;
+  background-color: rgb(244,246,72);
+  border-radius: 1vh;
+  cursor: pointer;
+  user-select: none;
+}
+
+.afr-incident-status-selector-active-descr {
+  position: absolute;
+  bottom: 0.5vh;
+  left: 6.5vh;
+  transform: translateX(-50%);
+  width: auto;
+  height: 1.25vh;
+  color: rgb(128,135,141);
+  font-weight: normal;
+  font-family: 'Myriad Condensed', Helvetica, sans-serif;
+  font-size: 1.25vh;
+  line-height: 1.25vh;
+  cursor: pointer;
+  user-select: none;
 }
 
 .afr-incident-status-selector-pipe {
@@ -931,12 +1093,249 @@
 }
 
 .afr-incident-status-selector-next {
+  align-content: center;
+  justify-content: center;
   position: absolute;
-  top: 2.5vh;
-  right: 2.5vh;
-  font-size: 3vh;
+  top: 0;
+  right: 0;
+  height: 9vh;
+  width: 7.4vh;
+  /* background-color: aquamarine;*/
+  font-size: 2.5vh;
   color: rgb(0,0,0);
   margin: 0;
   font-weight: bold;
   font-family: 'Myriad Condensed', Helvetica, sans-serif;
+  border-radius: 0 1.5vh 1.5vh 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+
+
+
+
+.afr-pages-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  object-fit: contain;
+  font-size: 5vh;
+  color: #fff;
+  font-family: 'Myriad Condensed', Helvetica, sans-serif;
+}
+
+.afr-pages-header-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 8.75vh;
+  background-color: rgb(148,148,148);
+  border-bottom: 0.75vh solid rgb(255, 255, 255);
+  display: flex;
+}
+
+.afr-pages-header-close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8.75vh;
+  height: 8.75vh;
+  background-color: rgb(139,0,0);
+  justify-content: center;
+  align-items: center;
+}
+
+.afr-pages-status-selector-active {
+  position: absolute;
+  top: 1.8vh;
+  left: 8vh;
+  transform: translateX(-50%);
+  width: auto;
+  height: 5vh;
+  color: rgb(0,0,0);
+  font-weight: bold;
+  font-family: 'Myriad Condensed', Helvetica, sans-serif;
+  font-size: 5vh;
+  line-height: 5vh;
+  padding: 0 1vh;
+  background-color: rgb(244,246,72);
+  border-radius: 1vh;
+  cursor: pointer;
+  user-select: none;
+}
+
+.afr-pages-status-selector-active-descr {
+  position: absolute;
+  bottom: 0.3vh;
+  left: 8vh;
+  transform: translateX(-50%);
+  width: auto;
+  height: 1.75vh;
+  color: rgb(128,135,141);
+  font-weight: normal;
+  font-family: 'Myriad Condensed', Helvetica, sans-serif;
+  font-size: 1.75vh;
+  line-height: 1.75vh;
+  cursor: pointer;
+  user-select: none;
+}
+
+.afr-pages-status-selector-pipe {
+  position: absolute;
+  top: 1vh;
+  left: 50%;
+  height:7vh;
+  pointer-events: none;
+}
+
+.afr-pages-status-selector-pipe-svg {
+  stroke: rgb(201,207,213);
+}
+
+.afr-pages-status-selector-next {
+  align-content: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 9vh;
+  width: 8vh;
+  /* background-color: aquamarine;*/
+  font-size: 2.5vh;
+  color: rgb(0,0,0);
+  margin: 0;
+  font-weight: bold;
+  font-family: 'Myriad Condensed', Helvetica, sans-serif;
+  border-radius: 0 1.5vh 1.5vh 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.afr-pages-status-selector {
+  z-index: 10;
+  position: absolute;
+  top: -1vh;
+  left: -2.25vh;
+  width: 23vh;
+  height: 9vh;
+  
+  border: double 1vh transparent;
+  border-radius: 3vh;
+  background-image: 
+  linear-gradient(rgb(229, 236, 242) 0%, rgb(229, 236, 242) 100%),
+  linear-gradient(180deg, 
+  rgba(91,103,107,1) 0%,
+  rgba(61,71,74,1) 9%,
+  rgba(61,71,74,1) 10%,
+  rgba(134,145,149,1) 49%, 
+  rgba(32,42,46,1) 50%,
+  rgba(32,41,46,1) 100%
+  );
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+
+  box-shadow: inset 4.5vh 0 4vh -4vh rgba(0, 0, 0, 1), inset -4.5vh 0 4vh -4vh rgba(0, 0, 0, 1), inset 0 0 1vh 0.2vh rgba(0, 0, 0, 0.8), 0 1vh 0.9vh -0.2vh rgba(0, 0, 0, 0.5);
+  justify-items: center;
+  align-content: center;
+  cursor: pointer;
+
+  scale: 0.65;
+}
+
+.afr-pages-status-selector-container {
+  position: relative;
+  width: 13.5vh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0 3vh;
+}
+
+.afr-pages-header-details-button {
+  position: relative;
+  border-left: solid 0.25vh rgb(255,255,255);
+  border-right: solid 0.25vh rgb(255,255,255);
+  width: 8.75vh;
+  height: 8.75vh;
+}
+
+.afr-pages-header-details-text {
+  font-size: small;
+  color: #000000;
+  position: absolute;
+  bottom: 0.75vh;
+  margin: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  user-select: none;
+  font-size: 1.5vh;
+}
+
+.afr-pages-outlet-container {
+  height: calc(100% - 9.5vh);
+  width: 100%;
+  position: absolute;
+  justify-content: center;
+  object-fit: contain;
+  bottom: 0;
+}
+
+
+
+
+
+
+
+
+
+
+.afr-pages-trn-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  object-fit: contain;
+  font-size: 5vh;
+  color: #fff;
+  font-family: 'Myriad Condensed', Helvetica, sans-serif;
+}
+
+.afr-pages-trn-list-container {
+  width: 25%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  overflow: auto;
+  justify-content: center;
+  align-items: center;
+  object-fit: contain;
+  font-size: 5vh;
+  color: #fff;
+  font-family: 'Myriad Condensed', Helvetica, sans-serif;
+}
+
+.afr-pages-trn-feature-container {
+  width: 71.5%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+  align-items: center;
+  object-fit: contain;
+  font-size: 5vh;
+  color: #fff;
+  font-family: 'Myriad Condensed', Helvetica, sans-serif;
+  border-left: 0.5vh solid rgb(100,100,100);
 }

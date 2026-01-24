@@ -25,6 +25,21 @@ function AfrHome() {
         }
     }
 
+    const handleNextStatus = (selector?: any) => {
+        let nextStatus = statuses.find((s: any) => s.id === status.next);
+        if (selector === true){
+            let selectorElement = document.getElementById("afr-incident-status-selector");
+            selectorElement?.classList.add('afr-home-status-panel-item-selected-anim');
+            setTimeout(() => {
+                selectorElement?.classList.remove('afr-home-status-panel-item-selected-anim');
+                if (nextStatus) {
+                    setStatus(nextStatus);
+                }
+            }, Math.random() * (4000 - 500) + 500);
+        } else if (nextStatus) {
+            setStatus(nextStatus);
+        }
+    }
 
     return (<>
         {incident === false ?
@@ -81,9 +96,12 @@ function AfrHome() {
                 </div>
             </div>
             <div className='afr-incident-status-panel-fog' {...(panelOpen && {style: {backgroundColor: 'rgba(0, 0, 0, 0.65)', pointerEvents: 'auto'}})} onClick={() => setPanelOpen(false)}/>
-            <div className='afr-incident-status-selector'>
+            <div id='afr-incident-status-selector' className='afr-incident-status-selector' onClick={() => handleNextStatus(true)}>
                 <div className='afr-incident-status-selector-active'>
                     <p style={{margin: "0"}}>{status.abbvr}</p>
+                </div>
+                <div className='afr-incident-status-selector-active-descr'>
+                    <p style={{margin: "0"}}>{status.name}</p>
                 </div>
                 <svg className='afr-incident-status-selector-pipe' viewBox='0 0 100 100'>
                     <line className="afr-incident-status-selector-pipe-svg" x1="50%" y1="0" x2="50%" y2="100%" stroke="rgb(200, 200, 200)" strokeWidth="2"/>
