@@ -8,13 +8,12 @@ import AfrApp from './afr/afrapp.tsx';
 import AfrHome from './afr/afrhome.tsx';
 import AfrPages from './afr/pages/afrpages.tsx';;
 import afrtrn from './afr/pages/arftrn.tsx';
-import error from './afr/error.tsx';
+import BreakthroughPreview from './afr/breakthroughpreview.tsx';
 
 const router = createBrowserRouter([
   {
     path: "/afr",
     Component: AfrApp,
-    errorElement: error,
     children: [
       {path: "home", Component: AfrHome,},
       {path: "page", Component: AfrPages,children: [
@@ -22,6 +21,10 @@ const router = createBrowserRouter([
       ]},
     ]
   },
+  {
+    path: "/breakthroughpreview",
+    Component: BreakthroughPreview,
+  }
 ]);
 
 createRoot(document.getElementById('root')).render(

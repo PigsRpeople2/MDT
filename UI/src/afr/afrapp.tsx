@@ -16,9 +16,12 @@ function AfrApp() {
   let toBePassed = {incident, setIncident, incidentDetailsRef, status, setStatus, statuses, navigate}
 
   let [breakthrough, setBreakthrough] = useState(false)
-  let breakthroughinfo = useRef({messageType: "", message: [{text: ""}]})
+  let breakthroughinfo = useRef({messageType: "", message: ""})
   let [breakthroughMute, setBreakthroughMute] = useState(false)
   let [breakthroughSentQuiet, setBreakthroughSentQuiet] = useState(false)
+  const audioRef = useRef<HTMLAudioElement>(null);
+  let volume = 0
+
 
   let [error, setError] = useState(false)
   let [errorInfo, setErrorInfo] = useState<{title: string, message: string, level: number}[]>([])
@@ -42,19 +45,102 @@ function AfrApp() {
   let buttons = [{text: "NAV", function: () => fakethroughMessage(), link: ""}, {text: "MAP", function: () => perimeterInfoBar("discon", "SERVER DISCONNECTED"), link: ""}, {text: "SitR", function: () => perimeterInfoBar("discon"), link: ""}, {text: "LOG", function: () => setIncident(!incident), link: ""}, {text: "CREW", function: () => causeError("Crew Error", "", 0, true), link: ""}, {text: "FORMS", function: () => {}, link: ""}, {text: "CREW", function: () => {}, link: ""}, {text: "CREW", function: () => {}, link: ""}, {text: "CREW", function: () => {}, link: ""}, {text: "CREW", function: () => {}, link: ""}, {text: "CREW", function: () => {}, link: ""}, {text: "CREW", function: () => {}, link: ""}, {text: "CREW", function: () => {}, link: ""}, {text: "CREW", function: () => {}, link: ""}, {text: "TRN", function: () => {}, link: "/afr/page/trn"},]
 
   const fakethroughMessage = () => {
-    breakthroughinfo.current = {messageType: "Bush Fire - FIRECALL", message: [{text: "ohh noes, fire in the bush! coz like someone didnt put their cigarette out propahly! and now everythin's on fire! please come quick! its real bad! we need all hands on deck!"}]}
+    breakthroughinfo.current = {messageType: "Bush Fire - FIRECALL", message: "ohh noes, fire in the bush! coz like someone didnt put their cigarette out propahly! and now everythin's on fire! please come quick! its real bad! we need all hands on deck!"}
     setBreakthroughSentQuiet(false)
     setBreakthroughMute(false)
     setBreakthrough(true)
+    const alerTimer = setTimeout(() => {
+      handleBreackthroughAlert(false)
+      clearTimeout(alerTimer);
+    }, 100);
   }
 
-  const breakthroughMessage = (messageType?: string, message?: string | Array<{text: string}>, quiet?: boolean) => {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const handleBreackthroughAlert = (mute: boolean) => {
+
+
+    console.log("handling breakthrough alert")
+
+
+    if (audioRef.current) {
+
+
+      if (mute == false) {
+      
+      console.log("playing breakthrough alert")
+
+      audioRef.current.volume = 0;
+      volume = 0.05;
+      audioRef.current.play();
+
+
+      let fadeInInterval = setInterval(() => { 
+        console.log(volume)
+        if (volume < 1 && mute == false) {
+
+          volume = volume + 0.01;
+
+          console.log(volume )
+
+          if (audioRef.current) {
+
+            audioRef.current.volume = Math.min(Math.max(volume, 0), 1);
+
+            if (mute){
+
+              clearInterval(fadeInInterval);
+
+            };
+
+            if (volume === undefined) {
+              clearInterval(fadeInInterval);
+            }
+          }} else {
+
+            clearInterval(fadeInInterval);
+
+          }
+      }, 50);   
+
+      } else {
+
+        console.log("muting breakthrough alert")
+
+        audioRef.current.pause();
+
+        volume = 0;
+        
+
+      }
+    }
+  }
+
+
+
+
+
+
+
+  const breakthroughMessage = (messageType?: string, message?: string, quiet?: boolean) => {
     if (messageType) {
       if (typeof message === "string"){
-        message = [{text: message}]
+        message = message
       }
         
-      breakthroughinfo.current = {messageType: messageType, message: message || [{text: ""}]}
+      breakthroughinfo.current = {messageType: messageType, message: message || ""}
       if (quiet == true){
         setBreakthroughMute(true)
         setBreakthroughSentQuiet(true)
@@ -192,7 +278,7 @@ function AfrApp() {
 }
 `}
       </style>
-      
+      <audio ref={audioRef} src='/breakthroughalert.mp3' loop />
       {breakthrough == false?
       <div className="afr-interior">
         {error == true &&
@@ -313,23 +399,19 @@ function AfrApp() {
       </div>
       :
       <>
-      {breakthroughMute == false &&
-      <audio src='/breakthroughalert.mp3' autoPlay loop/>}
       <div className='afr-breakthrough-message-container'>
         <div className='afr-breakthrough-message-interior'>
           <div className='afr-breakthrough-message-contentbox'>
-            <p>{breakthroughinfo.current.messageType}<br/>{breakthroughinfo.current.message.map((msg, index) => (<>
-              {msg.text} <br/></>
-            ))}</p>
+            <p style={{whiteSpace: "pre-wrap"}}>{breakthroughinfo.current.messageType}<br/>{breakthroughinfo.current.message}</p>
           </div>
           <div className='afr-breakthrough-message-options'>
-            <div className='afr-breakthrough-message-acknowledge' onClick={() => setBreakthrough(false)}>
+            <div className='afr-breakthrough-message-acknowledge' onClick={() => {setBreakthrough(false); setBreakthroughMute(true); handleBreackthroughAlert(true);}}>
               <div className='afr-breakthrough-message-acknowledge-container'>
                 <p style={{userSelect: 'none'}}>ACKNOWLEDGE</p>
               </div>
             </div>
             {breakthroughSentQuiet == false &&
-            <div className='afr-breakthrough-message-mute' onClick={() => setBreakthroughMute(true)}>
+            <div className='afr-breakthrough-message-mute' onClick={() => {setBreakthroughMute(true); handleBreackthroughAlert(true);}}>
               <div className='afr-breakthrough-message-mute-container'>
                 <p style={{userSelect: 'none'}}>MUTE</p>
               </div>

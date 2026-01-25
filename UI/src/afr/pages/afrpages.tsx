@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, use } from 'react';
 import { useOutletContext, Outlet, Link, href } from 'react-router';
 import '../../App.css';
 
@@ -65,7 +65,7 @@ function AfrPages() {
                 </div>}
             </div>
             <div className='afr-pages-outlet-container'>
-                <Outlet />
+                <Outlet context={useOutletContext()}/>
             </div>
         </div>
         </>
