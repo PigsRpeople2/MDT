@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import { Outlet, Link, useNavigate } from 'react-router'
-import '../app.css'
 
 
 function AfrApp() {
@@ -8,7 +7,7 @@ function AfrApp() {
   // FOR CHILDREN
     // HOME  
       const [incident, setIncident] = useState(false);
-      const incidentDetailsRef = useRef({location: "", type: "", units: []});
+      const incidentDetailsRef = useRef({type: "", address: "", incidentID: "", businessName: "", propertyName: "", tgGroupName: "", fireGroundChannel: "", CBChannel: "", district: "", controlName: "", details: "",units: ([{identifier: "", statusID: 0}])});
       const statuses = [{id: 0, name: "RESPONDING", abbvr: "RES", next: 1}, {id: 1, name: "ON SCENE", abbvr: "OS", next: 2}, {id: 2, name: "AVAILABLE", abbvr: "AV", next: 3}, {id: 3, name: "AT STATION", abbvr: "AS", next: 0}, {id: 4, name: "NOT AVAILABLE", abbvr: "NA", next: 3}, {id: 5, name: "PROCEEDING", abbvr: "PRO", next: 2}, {id: 6, name: "ALERTED", abbvr: "AL", next: 0}, {id: 7, name: "EMERGENCY", abbvr: "EMR", next: 3}];
       const [status, setStatus] = useState({id: 2, name: "AVAILABLE", abbvr: "AV", next: 0});
       const navigate = useNavigate();
@@ -17,7 +16,6 @@ function AfrApp() {
 
   let [breakthrough, setBreakthrough] = useState(false)
   let breakthroughinfo = useRef({messageType: "", message: ""})
-  let [breakthroughMute, setBreakthroughMute] = useState(false)
   let [breakthroughSentQuiet, setBreakthroughSentQuiet] = useState(false)
   const audioRef = useRef<HTMLAudioElement>(null);
   let volume = 0
@@ -47,7 +45,6 @@ function AfrApp() {
   const fakethroughMessage = () => {
     breakthroughinfo.current = {messageType: "Bush Fire - FIRECALL", message: "ohh noes, fire in the bush! coz like someone didnt put their cigarette out propahly! and now everythin's on fire! please come quick! its real bad! we need all hands on deck!"}
     setBreakthroughSentQuiet(false)
-    setBreakthroughMute(false)
     setBreakthrough(true)
     const alerTimer = setTimeout(() => {
       handleBreackthroughAlert(false)
@@ -70,69 +67,33 @@ function AfrApp() {
 
 
   const handleBreackthroughAlert = (mute: boolean) => {
-
-
-    console.log("handling breakthrough alert")
-
-
     if (audioRef.current) {
-
-
       if (mute == false) {
-      
-      console.log("playing breakthrough alert")
-
       audioRef.current.volume = 0;
+      audioRef.current.currentTime = 0;
       volume = 0.05;
       audioRef.current.play();
-
-
       let fadeInInterval = setInterval(() => { 
-        console.log(volume)
         if (volume < 1 && mute == false) {
-
           volume = volume + 0.01;
-
-          console.log(volume )
-
           if (audioRef.current) {
-
             audioRef.current.volume = Math.min(Math.max(volume, 0), 1);
-
             if (mute){
-
               clearInterval(fadeInInterval);
-
             };
-
             if (volume === undefined) {
               clearInterval(fadeInInterval);
             }
           }} else {
-
             clearInterval(fadeInInterval);
-
           }
       }, 50);   
-
       } else {
-
-        console.log("muting breakthrough alert")
-
         audioRef.current.pause();
-
         volume = 0;
-        
-
       }
     }
   }
-
-
-
-
-
-
 
   const breakthroughMessage = (messageType?: string, message?: string, quiet?: boolean) => {
     if (messageType) {
@@ -142,11 +103,11 @@ function AfrApp() {
         
       breakthroughinfo.current = {messageType: messageType, message: message || ""}
       if (quiet == true){
-        setBreakthroughMute(true)
         setBreakthroughSentQuiet(true)
+        handleBreackthroughAlert(true)
       }
       else {
-        setBreakthroughMute(false)
+        handleBreackthroughAlert(false)
         setBreakthroughSentQuiet(false)
       }
       setBreakthrough(true)
@@ -405,13 +366,13 @@ function AfrApp() {
             <p style={{whiteSpace: "pre-wrap"}}>{breakthroughinfo.current.messageType}<br/>{breakthroughinfo.current.message}</p>
           </div>
           <div className='afr-breakthrough-message-options'>
-            <div className='afr-breakthrough-message-acknowledge' onClick={() => {setBreakthrough(false); setBreakthroughMute(true); handleBreackthroughAlert(true);}}>
+            <div className='afr-breakthrough-message-acknowledge' onClick={() => {setBreakthrough(false); handleBreackthroughAlert(true);}}>
               <div className='afr-breakthrough-message-acknowledge-container'>
                 <p style={{userSelect: 'none'}}>ACKNOWLEDGE</p>
               </div>
             </div>
             {breakthroughSentQuiet == false &&
-            <div className='afr-breakthrough-message-mute' onClick={() => {setBreakthroughMute(true); handleBreackthroughAlert(true);}}>
+            <div className='afr-breakthrough-message-mute' onClick={() => handleBreackthroughAlert(true)}>
               <div className='afr-breakthrough-message-mute-container'>
                 <p style={{userSelect: 'none'}}>MUTE</p>
               </div>

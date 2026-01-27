@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect, use } from 'react';
 import { useOutletContext, Outlet, Link, href } from 'react-router';
-import '../../App.css';
 
 function AfrPages() {
     

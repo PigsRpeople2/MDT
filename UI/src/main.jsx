@@ -8,7 +8,6 @@ import AfrApp from './afr/afrapp.tsx';
 import AfrHome from './afr/afrhome.tsx';
 import AfrPages from './afr/pages/afrpages.tsx';;
 import afrtrn from './afr/pages/arftrn.tsx';
-import BreakthroughPreview from './afr/breakthroughpreview.tsx';
 
 const router = createBrowserRouter([
   {
@@ -21,10 +20,6 @@ const router = createBrowserRouter([
       ]},
     ]
   },
-  {
-    path: "/breakthroughpreview",
-    Component: BreakthroughPreview,
-  }
 ]);
 
 createRoot(document.getElementById('root')).render(

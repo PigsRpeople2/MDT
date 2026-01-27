@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import { useOutletContext } from 'react-router';
 
+
 function AfrHome() {
 
     const {incident, setIncident, incidentDetailsRef, status, setStatus, statuses} = useOutletContext<any>();
@@ -21,6 +22,7 @@ function AfrHome() {
                 if (newStatus.current.id === statusID) {
                     setStatus(newStatus.current);
                 }
+                setPanelOpen(false);
             }, Math.random() * (4000 - 500) + 500);
         }
     }
